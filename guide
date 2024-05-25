@@ -1,0 +1,3 @@
+win
+echo queues.c | entr sh -cx 'cc -g queues.c && ./a.out'
+echo queues2.c | entr sh -cx 'cc -g queues2.c -fsanitize=address && ./a.out'
