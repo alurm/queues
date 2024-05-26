@@ -11,8 +11,11 @@ void add_node_to_list(list_node **list, list_node *node) {
 
 list_node *remove_node_from_list(list_node **list) {
 	list_node *node = *list;
-	*list = (*list)->list;
-	return node;
+	if (node == 0) return 0;
+	else {
+		*list = (*list)->list;
+		return node;
+	}
 }
 
 void print_list(list_node *list) {
@@ -37,7 +40,7 @@ list_node *dequeue(queue *q) {
 	}
 }
 
-queue print_and_reverse_queue(queue q) {
+queue print_queue(queue q) {
 	queue q2 = { 0 };
 	for (;;) {
 		list_node *node = dequeue(&q);
@@ -67,7 +70,7 @@ int main(void) {
 	enqueue(&q, &(list_node){ 4 });
 	enqueue(&q, &(list_node){ 5 });
 
-	q = print_and_reverse_queue(q);
+	q = print_queue(q);
 
-	q = print_and_reverse_queue(q);
+	q = print_queue(q);
 }

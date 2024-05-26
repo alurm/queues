@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <assert.h>
 
 typedef struct list list;
 typedef struct list_node list_node;
@@ -26,7 +25,7 @@ void add_node_to_list(list *l, list_node *node) {
 }
 
 list_node *remove_node_from_list(list *l) {
-	assert(l->is == is_list_node);
+	if (l->is == is_list_end) return 0;
 	list_node *node = l->node;
 	*l = l->node->next;
 	return node;
@@ -55,7 +54,8 @@ list_node *dequeue(queue *q) {
 		return remove_node_from_list(&q->front);
 	break;
 	case is_list_end:
-		assert(q->back.is == is_list_node);
+		if (q->back.is == is_list_end)
+			return 0;
 		while (q->back.is == is_list_node)
 			add_node_to_list(&q->front, remove_node_from_list(&q->back));
 		return dequeue(q);
@@ -67,10 +67,12 @@ _Bool is_queue_empty(queue q) {
 	return q.front.is == is_list_end && q.back.is == is_list_end;
 }
 
-queue print_and_reverse_queue(queue q) {
+queue print_queue(queue q) {
 	queue q2 = { 0 };
-	while (!is_queue_empty(q)) {
+	while (1) {
 		list_node *node = dequeue(&q);
+		if (node == 0)
+			break;
 		printf("%d\n", node->value);
 		enqueue(&q2, node);
 	}
@@ -98,6 +100,6 @@ int main(void) {
 	enqueue(&q, &(list_node){ 2 });
 	enqueue(&q, &(list_node){ 3 });
 
-	q = print_and_reverse_queue(q);
-	q = print_and_reverse_queue(q);
+	q = print_queue(q);
+	q = print_queue(q);
 }
