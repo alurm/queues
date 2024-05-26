@@ -5,11 +5,11 @@ typedef struct list_node {
 	struct list_node *list;
 } list_node;
 
-void add_node_to_list(list_node **list, list_node *node) {
+void enlist(list_node **list, list_node *node) {
 	node->list = *list, *list = node;
 }
 
-list_node *remove_node_from_list(list_node **list) {
+list_node *delist(list_node **list) {
 	list_node *node = *list;
 	if (node == 0) return 0;
 	else {
@@ -28,13 +28,13 @@ typedef struct queue {
 } queue;
 
 void enqueue(queue *q, list_node *node) {
-	add_node_to_list(&q->back, node);
+	enlist(&q->back, node);
 }
 
 list_node *dequeue(queue *q) {
-	if (q->front) return remove_node_from_list(&q->front);
+	if (q->front) return delist(&q->front);
 	else {
-		while (q->back) add_node_to_list(&q->front, remove_node_from_list(&q->back));
+		while (q->back) enlist(&q->front, delist(&q->back));
 		if (q->front == 0) return 0;
 		return dequeue(q);
 	}
@@ -54,13 +54,13 @@ queue print_queue(queue q) {
 int main(void) {
 	list_node *list = 0;
 
-	add_node_to_list(&list, &(list_node){ 1 });
-	add_node_to_list(&list, &(list_node){ 2 });
+	enlist(&list, &(list_node){ 1 });
+	enlist(&list, &(list_node){ 2 });
 
 	print_list(list);
 
-	remove_node_from_list(&list);
-	remove_node_from_list(&list);
+	delist(&list);
+	delist(&list);
 
 	print_list(list);
 
