@@ -1,3 +1,6 @@
 win
-echo queues.c | entr sh -cx 'cc -g queues.c && ./a.out'
-echo queues2.c | entr sh -cx 'cc -g queues2.c -fsanitize=address && ./a.out'
+win sh -c 'echo queues.c | entr sh -cx "cc -g queues.c && ./a.out"'
+win sh -c 'echo queues2.c | entr sh -cx "cc -g queues2.c -fsanitize=address && ./a.out"'
+win sh -c 'echo queues3.c | entr sh -cx "cc -g queues3.c -fsanitize=address && ./a.out"'
+win sh -c 'echo queues4.c | entr sh -cx "cc -g queues4.c -fsanitize=address && ./a.out"'
+ssh-agent ssh-added key git push -f
