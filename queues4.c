@@ -11,11 +11,17 @@ typedef struct queue {
 
 _Bool enqueue(queue *q, int value) {
 	if (q->enqueue_at == q->capacity) {
-		int new_capacity = q->capacity * 2 + 1;
+		int elements = q->enqueue_at - q->dequeue_at;
+
+		int new_capacity = elements * 2 + 1;
 		int *new_array = malloc(new_capacity * sizeof(int));
 		if (new_array == 0)
 			return 0;
-		memcpy(new_array, q->array + q->dequeue_at, q->capacity * sizeof(int));
+		memcpy(
+			new_array,
+			q->array + q->dequeue_at,
+			elements * sizeof(int)
+		);
 		free(q->array);
 
 		q->capacity = new_capacity;
